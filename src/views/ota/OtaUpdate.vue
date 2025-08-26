@@ -18,10 +18,25 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'OtaUpdate'
-}
+<script setup>
+import { onBeforeMount, onMounted, ref } from "vue";
+// 或者导入默认对象
+import { getDrugListAPI } from "../../api/drug";
+
+onMounted(() => {
+  console.log("组件挂载完成");
+  // 调用 SOAP 服务查询 ID 为 32702194 的数据
+  getDrugListAPI("32702194")
+    .then((data) => {
+      console.log("查询结果:", data);
+      console.log('ssssssssssssssssssssssssssss')
+      // 处理返回的数据
+    })
+    .catch((error) => {
+      console.error("查询失败:", error);
+      // 处理错误
+    });
+});
 </script>
 
 <style scoped>
