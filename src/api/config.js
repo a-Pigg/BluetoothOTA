@@ -1,4 +1,4 @@
-import axios from 'axios'
+import request from '@/utils/request'
 
 // 配置服务API
 export const configApi = {
@@ -7,7 +7,7 @@ export const configApi = {
     const formData = new FormData()
     formData.append('zip', file)
     
-    return axios.post('/api/config/jar/upload', formData, {
+    return request.post('/jar/upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -16,16 +16,15 @@ export const configApi = {
   
   // 获取配置信息
   getConfig() {
-    return axios.get('/api/config/config/getconfig')
+    return request.get('/config/getconfig')
   },
 
-  //更新配置文件
-  updateConfig(config){
-    return axios.post('/api/config/config/updateconfig', config, {
+  // 更新配置文件
+  updateConfig(config) {
+    return request.post('/config/updateconfig', config, {
       headers: {
         'Content-Type': 'application/json'
       }
     })
   }
 }
-

@@ -35,26 +35,22 @@ export default defineConfig({
       "@": path.resolve(__dirname, 'src')
     }
   },
+  // 开发服务器配置
   server: {
-    host: '0.0.0.0',
-    headers: {
-      'Access-Control-Allow-Origin': '*'
-    },
+    host: "0.0.0.0",
+    port: 5173,
     proxy: {
-      '/phis': {
-        target: 'http://10.193.48.24:8881',
+      
+      // 文件上传和配置信息服务代理
+      '/api/config': {
+        target: 'http://192.168.11.131:8080',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/phis/, '/phisws'),
-        timeout: 60000, // 增加超时时间以防API响应较慢
-        secure: false   // 非HTTPS连接设为false
+        rewrite: (path) => {
+          const newPath = path.replace(/^\/api\/config/, '')
+          console.log(`配置服务代理转发: ${path} -> ${newPath}`)
+          return newPath
+        }
       },
-      '/chis': {
-        target: 'http://10.193.48.24:12307',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/chis/, '/chisws'),
-        timeout: 60000,
-        secure: false
-      }
     }
   }
 })
