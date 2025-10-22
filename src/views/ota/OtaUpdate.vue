@@ -1,6 +1,6 @@
 <template>
   <div class="ota-container">
-    <el-button :plain="true" @click="open2">Success</el-button>
+    <!-- <el-button :plain="true" @click="open2">Success</el-button> -->
     <div class="page-header">
       <h2>OTA更新</h2>
     </div>
@@ -40,7 +40,7 @@
         </div>
       </div>
     </div>
-    <div class="file-info">
+    <!-- <div class="file-info">
       <h3>上传文件的配置信息</h3>
       <div class="info-card" v-if="configInfo">
         <div class="config-header">
@@ -100,7 +100,7 @@
           </el-form-item>
         </el-form>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

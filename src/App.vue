@@ -2,7 +2,13 @@
   <div class="app-container">
     <NavBar />
     <main class="main-content">
-      <router-view></router-view>
+      <!-- <router-view></router-view> -->
+      <router-view v-slot="{ Component }">
+        <!-- include="OtaUpdate,Config,Logs" -->
+        <keep-alive include="Config">
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
     </main>
   </div>
 </template>

@@ -10,6 +10,7 @@ import path from 'path'
 const name = 'vue' // page title
 // https://vite.dev/config/
 export default defineConfig({
+  base: './', // 添加这行
   plugins: [
     vue(),
     createHtmlPlugin({
@@ -35,22 +36,19 @@ export default defineConfig({
       "@": path.resolve(__dirname, 'src')
     }
   },
-  // 开发服务器配置
-  server: {
-    host: "0.0.0.0",
-    port: 5173,
-    proxy: {
+  // 开发服务器配置/
+  // server: {
+  //   host: "0.0.0.0",
+  //   port: 5173,
+  //   proxy: {
       
-      // 文件上传和配置信息服务代理
-      '/api/config': {
-        target: 'http://192.168.11.131:8080',
-        changeOrigin: true,
-        rewrite: (path) => {
-          const newPath = path.replace(/^\/api\/config/, '')
-          console.log(`配置服务代理转发: ${path} -> ${newPath}`)
-          return newPath
-        }
-      },
-    }
-  }
+  //     // 文件上传和配置信息服务代理
+  //     '/api': {
+  //       target: 'http://printer:8080',
+  //       changeOrigin: true,
+
+  //        rewrite: (path) => path.replace(/^\/api\//, '')  // 删除 /api/
+  //     },
+  //   }
+  // }
 })

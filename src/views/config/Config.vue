@@ -65,13 +65,18 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onActivated, onDeactivated } from "vue";
 import { ElMessage } from "element-plus";
 import { configApi } from "@/api/config";
+
+defineOptions({
+  name: 'Config' // ✅ 关键：设置组件名供 keep-alive 识别
+})
+
 // 文件上传相关
-const fileInput = ref(null);
-const selectedFile = ref(null);
-const uploading = ref(false);
+// const fileInput = ref(null);
+// const selectedFile = ref(null);
+// const uploading = ref(false);
 
 // 配置信息相关
 const configInfo = ref(null);
@@ -118,6 +123,25 @@ const resetConfig = () => {
   editableConfig.value = JSON.parse(JSON.stringify(configInfo.value));
   ElMessage.info("已重置为当前配置");
 };
+
+onMounted(() => {
+  console.log('✅ Config mounted')
+})
+
+onActivated(() => {
+  console.log('🔁 Config activated (从缓存恢复)')
+})
+
+onDeactivated(() => {
+  console.log('💤 Config deactivated (进入缓存)')
+})
+
+// onActivated(()=>{
+//   console.log('激活了')
+// })
+// onDeactivated(()=>{
+//   console.log('失活了')
+// })
 </script>
 
 <style scoped>

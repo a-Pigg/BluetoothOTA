@@ -1,6 +1,6 @@
 <template>
   <nav class="nav-container">
-    <div class="nav-title">蓝牙设备管理</div>
+    <div class="nav-title">设备管理</div>
     <div class="nav-items">
       <router-link to="/ota" class="nav-item">OTA更新</router-link>
       <router-link to="/config" class="nav-item">配置</router-link>
