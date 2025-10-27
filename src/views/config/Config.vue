@@ -41,6 +41,10 @@
               >保存更新</el-button
             >
             <el-button type="default" @click="resetConfig">重置</el-button>
+            <!-- 在 update 区域的 config-header 按钮组中添加 -->
+            <el-button type="danger" @click="handleResetToFactory">
+              恢复出厂设置
+            </el-button>
           </div>
         </div>
         <el-form
@@ -70,8 +74,8 @@ import { ElMessage } from "element-plus";
 import { configApi } from "@/api/config";
 
 defineOptions({
-  name: 'Config' // ✅ 关键：设置组件名供 keep-alive 识别
-})
+  name: "Config", // ✅ 关键：设置组件名供 keep-alive 识别
+});
 
 // 文件上传相关
 // const fileInput = ref(null);
@@ -124,17 +128,42 @@ const resetConfig = () => {
   ElMessage.info("已重置为当前配置");
 };
 
+//恢复出厂设置
+const handleResetToFactory = () => {
+  ElMessageBox.confirm(
+    "是否要恢复出厂设置？",
+    "提示",
+    {
+      confirmButtonText: "确认",
+      cancelButtonText: "取消",
+      type: "warning",
+    }
+  )
+    .then(() => {
+      ElMessage({
+        type: "success",
+        message: "恢复出厂设置成功",
+      });
+    })
+    .catch(() => {
+      ElMessage({
+        type: "info",
+        message: "已取消",
+      });
+    });
+};
+
 onMounted(() => {
-  console.log('✅ Config mounted')
-})
+  console.log("✅ Config mounted");
+});
 
 onActivated(() => {
-  console.log('🔁 Config activated (从缓存恢复)')
-})
+  console.log("🔁 Config activated (从缓存恢复)");
+});
 
 onDeactivated(() => {
-  console.log('💤 Config deactivated (进入缓存)')
-})
+  console.log("💤 Config deactivated (进入缓存)");
+});
 
 // onActivated(()=>{
 //   console.log('激活了')

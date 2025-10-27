@@ -4,7 +4,8 @@ import { ElMessage } from 'element-plus'
 // 创建axios实例
 const service = axios.create({
   // baseURL: '/api', // 可以根据环境配置不同的baseURL
-  baseURL:'http://printer:8080',
+  // baseURL:'http://printer:8080',
+  baseURL: import.meta.env.VITE_API_URL, // 自动根据环境切换
   timeout: 30000, // 请求超时时间
 })
 

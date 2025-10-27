@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import OtaUpdate from '../views/ota/OtaUpdate.vue'
 import Config from '../views/config/Config.vue'
 import Logs from '../views/logs/Logs.vue'
+import deviceInformation from '../views/deviceInformation/index.vue'
 // import SoapTest from '../views/SoapTest.vue'
 
 const routes = [
@@ -18,6 +19,11 @@ const routes = [
     path: '/config',
     name: 'Config',
     component: Config
+  },
+  {
+    path: '/deviceInformation',
+    name: 'deviceInformation',
+    component: deviceInformation
   },
   {
     path: '/logs',

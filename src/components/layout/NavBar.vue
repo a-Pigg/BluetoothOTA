@@ -4,6 +4,7 @@
     <div class="nav-items">
       <router-link to="/ota" class="nav-item">OTA更新</router-link>
       <router-link to="/config" class="nav-item">配置</router-link>
+      <router-link to="/deviceInformation" class="nav-item">检测设备信息</router-link>
       <router-link to="/logs" class="nav-item">日志</router-link>
     </div>
   </nav>
