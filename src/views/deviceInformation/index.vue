@@ -26,7 +26,7 @@
         </el-table>
       </div>
       <div class="empty-card" v-else>
-        <div class="empty-config" @click="a">
+        <div class="empty-config" @click="toCheck">
           <!-- 使用 Element Plus 图标，通过类名放大 -->
           <el-icon :size="60" color="#999" class="empty-icon">
             <Search />
@@ -83,7 +83,7 @@
 import { Search } from "@element-plus/icons-vue";
 import { ref, reactive } from "vue";
 
-const deviceInfo = ref(1);
+const deviceInfo = ref(null);
 const dialogVisible = ref(false);
 
 const tableData = [
@@ -119,12 +119,19 @@ const defaultForm = {
 // 响应式表单
 const form = reactive({ ...defaultForm });
 
+//去检测设备详情
+const toCheck = ()=>{
+  alert('检测')
+  deviceInfo.value = 1
+}
+
 const handleDetail = (index, row) => {
   console.log(index, row);
   dialogVisible.value = true;
 };
 
 const submit = () => {
+  //接口
   dialogVisible.value = false;
 };
 
