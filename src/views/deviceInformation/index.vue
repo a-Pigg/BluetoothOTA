@@ -40,34 +40,52 @@
         <h4 class="dialog-title">硬件详情</h4>
         <div class="detail-item">
           <span class="label">蓝牙：</span>
-          <span class="value">正常</span>
+          <span class="value">{{
+            showData.bluetoothAvailable ? "√" : "×"
+          }}</span>
         </div>
         <div class="detail-item">
           <span class="label">WIFI：</span>
-          <span class="value">已连接</span>
+          <span class="value">{{ showData.wifiAvailable ? "√" : "×" }}</span>
         </div>
         <div class="detail-item">
           <span class="label">网口：</span>
-          <span class="value">正常</span>
+          <span class="value">{{
+            showData.ethernetAvailable ? "√" : "×"
+          }}</span>
         </div>
         <div class="detail-item">
           <span class="label">打印机连接交互状态：</span>
-          <span class="value">已连接</span>
+          <span class="value">{{
+            showData.printerSerialAvailable ? "√" : "×"
+          }}</span>
         </div>
       </div>
       <div class="dialog-input">
         <h4 class="dialog-title">三要素填入</h4>
         <div class="input-group">
-          <label for="xoc1">XXX:</label>
-          <el-input v-model="form.xoc1" placeholder="请输入XXX" style="width: 600px"/>
+          <label for="xoc1">xxx:</label>
+          <el-input
+            v-model="form.deviceName"
+            placeholder="请输入deviceName"
+            style="width: 550px"
+          />
         </div>
         <div class="input-group">
-          <label for="xoc2">XXX:</label>
-          <el-input v-model="form.xoc2" placeholder="请输入XXX" style="width: 600px"/>
+          <label for="xoc2">xxx:</label>
+          <el-input
+            v-model="form.deviceSecret"
+            placeholder="请输入deviceSecret"
+            style="width: 550px"
+          />
         </div>
         <div class="input-group">
-          <label for="xoc3">XXX:</label>
-          <el-input v-model="form.xoc3" placeholder="请输入XXX" style="width: 600px"/>
+          <label for="xoc3">xxx:</label>
+          <el-input
+            v-model="form.productKey"
+            placeholder="请输入productKey"
+            style="width: 550px"
+          />
         </div>
       </div>
       <template #footer>
@@ -80,64 +98,90 @@
 </template>
 
 <script setup>
+defineOptions({
+  name: "DeviceInformation", // 关键：设置组件名供 keep-alive 识别
+});
+// element-plus 集成的 dayjs 默认也安装了 dayjs 插件，所以相关插件可以直接使用
+import { dayjs } from 'element-plus'
 import { Search } from "@element-plus/icons-vue";
 import { ref, reactive } from "vue";
+import { configApi } from "@/api/config";
 
 const deviceInfo = ref(null);
 const dialogVisible = ref(false);
 
-const tableData = [
-  {
-    date: "2016-05-03",
-    name: "Tom",
-    address: "No. 189, Grove St, Los Angeles",
-  },
-  {
-    date: "2016-05-02",
-    name: "Tom",
-    address: "No. 189, Grove St, Los Angeles",
-  },
-  {
-    date: "2016-05-04",
-    name: "Tom",
-    address: "No. 189, Grove St, Los Angeles",
-  },
-  {
-    date: "2016-05-01",
-    name: "Tom",
-    address: "No. 189, Grove St, Los Angeles",
-  },
-];
+// tableData
+const tableData = ref([]);
 
 // 默认表单值
 const defaultForm = {
-  xoc1: "",
-  xoc2: "",
-  xoc3: "",
+  deviceName: "",
+  deviceSecret: "",
+  productKey: "",
 };
 
+const showData = ref({});
+console.log('1111',) 
 // 响应式表单
 const form = reactive({ ...defaultForm });
 
 //去检测设备详情
-const toCheck = ()=>{
-  alert('检测')
-  deviceInfo.value = 1
-}
+// const toCheck = async()=>{
+//   alert('检测')
+//   // deviceInfo.value = 1
+//   const response = await configApi.gethardwareInspection()
+//   console.log(response)
+// }
+const toCheck = async () => {
+  try {
+    const response = await configApi.gethardwareInspection();
+    console.log("检测结果:", response);
+
+    if (response.code === 0) {
+      const data = response.data;
+
+      tableData.value = [
+        {
+          date: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss'), // 可以用当前时间作为检测日期
+          // name: `检测结果: ${data.result === "PASS" ? "通过" : "未通过"}`,
+          raw: data,
+        },
+      ];
+      ElMessage.success("获取检测数据成功");
+      deviceInfo.value = true; // 显示表格
+    } else {
+      tableData.value = [];
+      deviceInfo.value = false;
+      ElMessage.error("获取检测数据失败");
+    }
+  } catch (error) {
+    console.error("请求失败:", error);
+    tableData.value = [];
+    deviceInfo.value = false;
+    ElMessage.error("网络错误，检测失败");
+  }
+};
 
 const handleDetail = (index, row) => {
-  console.log(index, row);
+  console.log(index, row.raw);
+  showData.value = row.raw; // 将 raw 数据赋值给 showData
   dialogVisible.value = true;
 };
 
-const submit = () => {
+const submit = async () => {
   //接口
-  dialogVisible.value = false;
+  try {
+    await configApi.updateElements(form);
+    ElMessage.success("三要素更新成功");
+    dialogVisible.value = false;
+  } catch (error) {
+    ElMessage.error("保存失败：" + error.message);
+  }
 };
 
 // 关闭弹窗时重置表单
 const handleClose = () => {
-  console.log('关闭事件')
+  console.log("关闭事件");
   Object.assign(form, defaultForm); // 一键重置
 };
 </script>

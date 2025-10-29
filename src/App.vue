@@ -5,7 +5,7 @@
       <!-- <router-view></router-view> -->
       <router-view v-slot="{ Component }">
         <!-- include="OtaUpdate,Config,Logs" -->
-        <keep-alive include="Config">
+        <keep-alive include="Config,DeviceInformation">
           <component :is="Component" />
         </keep-alive>
       </router-view>

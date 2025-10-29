@@ -39,7 +39,7 @@ service.interceptors.response.use(
   error => {
     console.error('响应错误:', error)
     // const message = error.response?.data?.message || error.message || '网络错误'
-    ElMessage.error(message)
+    // ElMessage.error(message)
     return Promise.reject(error)
   }
 )

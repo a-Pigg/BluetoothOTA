@@ -44,7 +44,7 @@ export default defineConfig({
       
       // 文件上传和配置信息服务代理
       '/api': {
-        target: 'http://printer:8080',
+        target: 'http://printer:25172',
         changeOrigin: true,
 
          rewrite: (path) => path.replace(/^\/api\//, '')  // 删除 /api/

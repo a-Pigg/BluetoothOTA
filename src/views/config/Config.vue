@@ -94,7 +94,9 @@ const getConfigInfo = async () => {
 
   try {
     const response = await configApi.getConfig();
+    console.log(response)
     configInfo.value = response.data;
+
     // 创建可编辑的配置副本
     editableConfig.value = JSON.parse(JSON.stringify(configInfo.value));
     ElMessage.success("获取配置信息成功");

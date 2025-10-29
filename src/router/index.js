@@ -22,7 +22,7 @@ const routes = [
   },
   {
     path: '/deviceInformation',
-    name: 'deviceInformation',
+    name: 'DeviceInformation',
     component: deviceInformation
   },
   {

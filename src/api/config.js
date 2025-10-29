@@ -26,5 +26,15 @@ export const configApi = {
         'Content-Type': 'application/json'
       }
     })
+  },
+
+  //硬件检测
+  gethardwareInspection(){
+    return request.get('/check/self')
+  },
+
+  //工厂三元组修改
+  updateElements(data){
+    return request.post('/check/elements',data)
   }
 }
